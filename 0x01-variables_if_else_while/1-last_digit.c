@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 /**
- * main
+ * main - To print one of :Greater than 5, 0, less than 6 and not 0
  *
  * Return: Always (Success)
  */
