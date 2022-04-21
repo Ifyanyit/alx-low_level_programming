@@ -1,21 +1,22 @@
 #include "main.h"
-
 /**
-  *puts2 - prints every other char of string, starting with 1st char.
-  *@str: a pointer to an int
-  *Return - void which means answer is correct.
-  */
+ * puts2 - prints a string, followed by a new line,
+ * @str: pointer to the string to print
+ * Return: void
+*/
 
 void puts2(char *str)
 {
-	in a;
-        for ( a = 0; str[a] != '\0; a++)
-	{
-		if(a % 2 = 0);
-	{
-		_putchar(str[a]);
-	}
+	int i = 0;
 
-	_putchar('\n');
+	while (str[i] != '\0')
+	{
+		if (i % 2 == 0)
+		{
+			_putchar(str[i]);
+		}
+
+		i++;
 	}
+	_putchar('\n');
 }
