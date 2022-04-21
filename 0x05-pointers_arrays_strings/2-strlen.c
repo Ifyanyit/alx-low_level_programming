@@ -3,7 +3,7 @@
 /**
   *_strlen - function that returns the lenght of a string.
   *@s: A pointer to an int that changes.
-  *returns: Void which means that our answer is correct.
+  *return: Void which means that our answer is correct.
   */
 
 int _strlen(char *s)
@@ -14,10 +14,8 @@ int _strlen(char *s)
 
 	while (s[u] != '\0')
 	{
-	
 		u++;
-
 	}
 
-	return(u);
+	return (u);
 }
