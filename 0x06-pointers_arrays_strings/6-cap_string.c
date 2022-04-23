@@ -1,28 +1,31 @@
 #include "main.h"
-
 /**
- * leet - transform to leet
- * @s: char array string type
- * Return: s transformed
+ * cap_string - capitalizes all words of a string
+ * @s: input string.
+ * Return: the pointer to dest.
  */
 
-char *leet(char *s)
-{
-	int i, ii;
-	char s1[] = "aeotl";
-	char S1[] = "AEOTL";
-	char s2[] = "43071";
 
-	for (i = 0; s[i] != '\0'; i++)
-	{
-		for (ii = 0; ii < 5; ii++)
-		{
-			if (s[i] == s1[ii] || s[i] == S1[ii])
-			{
-				s[i] = s2[ii];
-				break;
-			}
-		}
-	}
-	return (s);
+char *cap_string(char *s)
+{
+int count = 0, i;
+int separators[] = {32, 9, 10, 44, 59, 46, 33, 63, 34, 40, 41, 123, 125};
+
+if (*(s + count) >= 97 && *(s + count) <= 122)
+*(s + count) = *(s + count) - 32;
+count++;
+while (*(s + count) != '\0')
+{
+for (i = 0; i < 13; i++)
+{
+if (*(s + count) == separators[i])
+{
+if ((*(s + (count + 1)) >= 97) && (*(s + (count + 1)) <= 122))
+*(s + (count + 1)) = *(s + (count + 1)) - 32;
+break;
+}
+}
+count++;
+}
+return (s);
 }
