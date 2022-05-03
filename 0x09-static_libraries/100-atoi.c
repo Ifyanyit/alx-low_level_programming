@@ -1,33 +1,29 @@
 #include "main.h"
-
 /**
- * _strncat - two words
- * @dest : pointer to char param
- * @src : pointer to char param
- * @n : int parameter
- * Return: *dest
+ * _atoi - int
+ * @s: pointer
+ * Return: int.
  */
-
-char *_strncat(char *dest, char *src, int n)
+int _atoi(char *s)
 {
-	int m;
 	int i;
+	int res = 0;
+	int sig = -1;
+	int brk = 0;
 
-	m = 0;
-
-	for (i = 0; i < 1000; i++)
+	for (i = 0; s[i] != '\0'; i++)
 	{
-		if (dest[i] == '\0')
+		if (s[i] == '-')
+			sig = sig * -1;
+		if (s[i] >= '0' && s[i] <= '9')
 		{
-			break;
+			res = res * 10;
+			res -= (s[i] - '0');
+			brk = 1;
 		}
-		m++;
+		else if (brk == 1)
+			break;
 	}
-
-	for (i = 0; src[i] != '\0' && i < n; i++)
-	{
-		dest[m + i] = src[i];
-	}
-	dest[m + i] = '\0';
-	return (dest);
+	res = sig * res;
+	return (res);
 }
