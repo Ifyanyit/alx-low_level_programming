@@ -1,7 +1,5 @@
-ributor
-Executable File  28 lines (24 sloc)  384 Bytes
-   
 #include "lists.h"
+
 /**
  * reverse_listint - Entry Point
  * @head: head
