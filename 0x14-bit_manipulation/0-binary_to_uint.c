@@ -7,9 +7,9 @@
  * Return: the converted number
  */
 unsigned int binary_to_uint(const char *b)
-	{
-	unsigned int p;
-	int len, base;
+{
+	unsigned int ui;
+	int len, base_two;
 
 	if (!b)
 		return (0);
@@ -19,7 +19,7 @@ unsigned int binary_to_uint(const char *b)
 	for (len = 0; b[len] != '\0'; len++)
 		;
 
-	for (len--, base = 1; len >= 0; len--, base *= 2)
+	for (len--, base_two = 1; len >= 0; len--, base_two *= 2)
 	{
 		if (b[len] != '0' && b[len] != '1')
 		{
@@ -28,9 +28,9 @@ unsigned int binary_to_uint(const char *b)
 
 		if (b[len] & 1)
 		{
-			p += base;
+			ui += base_two;
 		}
 	}
 
-	return (p);
+	return (ui);
 }
