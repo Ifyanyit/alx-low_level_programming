@@ -1,73 +1,81 @@
 #include "main.h"
-void closer(int arg_files);
+
 /**
- * main - Entry Point
- * @argc: # of args
- * @argv: array pointer for args
- * Return: 0
+ * cp - copies src to desinations
+ * @file_to: the destination file
+ * @file_from: the source file
+ *
+ * Return: integer
  */
-int main(int argc, char *argv[])
+int cp(char *file_to, char *file_from)
 {
-	int file_from, file_to, file_from_r, wr_err;
-	char buf[1024];
+	char *buffer[1024];
+	int td, fd, fr, fw;
+	int fc, ftc;
 
-	if (argc != 3)
+	fd = open(file_from, O_RDONLY);
+	if (fd < 0)
+		return (98);
+
+	td = open(file_to, O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (td < 0)
+		return (99);
+
+	fr = read(fd, buffer, 1024);
+	if (fr < 0)
+		return (98);
+
+	while (fr > 0)
 	{
-		dprintf(2, "Usage: cp file_from file_to\n");
-		exit(97);
+		fw = write(td, buffer, fr);
+		if (fw < 0)
+			return (99);
+		fr = read(fd, buffer, 1024);
+		if (fr < 0)
+			return (98);
 	}
 
-	file_from = open(argv[1], O_RDONLY);
-	if (file_from == -1)
+	fc = close(fd);
+	if (fc < 0)
 	{
-		dprintf(2, "Error: Can't read from file %s\n", argv[1]);
-		exit(98);
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fc);
+		return (100);
 	}
-
-	file_to = open(argv[2], O_WRONLY | O_TRUNC | O_CREAT, 0664);
-	if (file_to == -1)
+	ftc = close(td);
+	if (ftc < 0)
 	{
-		dprintf(2, "Error: Can't write to %s\n", argv[2]);
-		exit(99);
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", ftc);
+		return (100);
 	}
-
-	while (file_from_r >= 1024)
-	{
-		file_from_r = read(file_from, buf, 1024);
-		if (file_from_r == -1)
-		{
-			dprintf(2, "Error: Can't read from file %s\n", argv[1]);
-			closer(file_from);
-			closer(file_to);
-			exit(98);
-		}
-		wr_err = write(file_to, buf, file_from_r);
-		if (wr_err == -1)
-		{
-			dprintf(2, "Error: Can't write to %s\n", argv[2]);
-			exit(99);
-		}
-	}
-
-	closer(file_from);
-	closer(file_to);
 	return (0);
 }
 
 /**
- * closer - close with error
- * @arg_files: argv 1 or 2
- * Return: void
+ * main - the main function
+ * @ac: the argument count
+ * @av: the argument vector
+ *
+ * Return: always 0
  */
-void closer(int arg_files)
+int main(int ac, char **av)
 {
-	int close_err;
+	int c;
 
-	close_err = close(arg_files);
+	if (ac != 3)
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n"), exit(97);
 
-	if (close_err == -1)
+	c = cp(av[2], av[1]);
+	switch (c)
 	{
-		dprintf(2, "Error: Can't close fd %d\n", arg_files);
-		exit(100);
+		case (98):
+			dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", av[1]);
+			exit(98);
+		case (99):
+			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", av[2]);
+			exit(99);
+		case (100):
+			exit(100);
+		default:
+			return (0);
 	}
 }
