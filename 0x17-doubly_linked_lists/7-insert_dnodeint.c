@@ -1,52 +1,43 @@
 #include "lists.h"
 
 /**
- * insert_dnodeint_at_index - inserts node at index
- * @h: head of node
- * @idx: index to insert node
- * @n: data for new node
- * Return: list with inserted node
+ * insert_dnodeint_at_index - Inserts a new node at a given position.
+ * @h: Pointer to head of the list.
+ * @idx: Index to insert.
+ * @n: New data.
+ * Return: The address of the new node.
  */
 dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 {
-	unsigned int count = 1;
-	dlistint_t *temp = NULL, *new = NULL;
+	dlistint_t *new = NULL;
+	dlistint_t *prv_posit = *h;
 
+	/*Add at the start position*/
+	if (!idx)
+		return (add_dnodeint(h, n));
+
+	/*Find prev position*/
+	for (; idx > 1; idx--)
+	{
+		prv_posit = prv_posit->next;
+		if (!prv_posit)
+			return (NULL);
+	}
+
+	/*Add in the last position*/
+	if (!(prv_posit->next))
+		return (add_dnodeint_end(h, n));
+
+	/*Add in middle position*/
+	/*Create new node*/
 	new = malloc(sizeof(dlistint_t));
-	if (new == NULL || h == NULL)
+	if (!new)
 		return (NULL);
+
 	new->n = n;
-	temp = *h;
-	if (idx == 0)
-	{
-		*h = new;
-		new->next = temp;
-		new->prev = NULL;
-		temp->prev = new;
-		return (new);
-	}
-	while (temp->next != NULL)
-	{
-		if (count == idx) /* found back */
-		{
-			new->prev = temp; /* current prev to back link */
-			new->next = temp->next; /* current next to front link*/
-			temp->next = new; /* back next link */
-			new->next->prev = new; /* from prev link */
-		}
-		temp = temp->next;
-		count++;
-	}
-	if (count == idx) /* end of DLL */
-	{
-		new->prev = temp; /* current prev to back link */
-		new->next = NULL; /* current next to NULL*/
-		temp->next = new; /* back next link */
-	}
-	if (count < idx)
-	{
-		free(new);
-		return (NULL);
-	}
+	new->prev = prv_posit;
+	new->next = prv_posit->next;
+	prv_posit->next->prev = new;
+	prv_posit->next = new;
 	return (new);
 }

@@ -1,41 +1,49 @@
 #include "lists.h"
+#include <stdio.h>
 
 /**
- * delete_dnodeint_at_index - delete node at index
- * @head: double pointer to head of node
- * @index: index to delete
- * Return: list with deleted node, 1 on success, -1 on fail
+ * delete_dnodeint_at_index - Deletes the node at index index of a
+ * dlistint_t list.
+ * @head: Pointer to head.
+ * @index: Index of node to delete.
+ * Return: 1 if it succeeded, -1 if it failed.
  */
 int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 {
-	unsigned int count = 0;
-	dlistint_t *temp = NULL;
+	dlistint_t *delete_node = *head;
 
-	if (head == NULL || *head == NULL)
+	if (!head || !(*head))
 		return (-1);
 
-	temp = *head;
+	/*Only 1 node*/
 
-	if (index == 0)
+	/*Find node to delete*/
+	for (; index > 1; index--)
 	{
-		*head = (*head)->next;
-		if (*head != NULL)
-			(*head)->prev = NULL;
-		free(temp);
-		return (1);
-	}
-	while (temp->next != NULL)
-	{
-		if (count == index)
-		{
-			temp->next->prev = temp->prev;
-			temp->prev->next = temp->next;
-			free(temp);
-			return (1);
-		}
-		temp = temp->next;
-		count++;
+		delete_node = delete_node->next;
+		if (!delete_node)
+			return (-1);
 	}
 
-	return (-1);
+	/*If there is the first node*/
+	if (!index)
+	{
+		/*If there is only a node*/
+		if (!(delete_node->next))
+			*head = NULL;
+		else
+			*head = delete_node->next;
+	}
+	else
+		delete_node = delete_node->next;
+
+	if (delete_node->prev)
+		delete_node->prev->next = delete_node->next;
+
+	if (delete_node->next)
+		delete_node->next->prev = delete_node->prev;
+
+	free(delete_node);
+
+	return (1);
 }
