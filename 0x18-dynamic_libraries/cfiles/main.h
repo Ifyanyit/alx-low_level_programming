@@ -1,9 +1,6 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <stdio.h>
-#include <stdlib.h>
-
 int _putchar(char c);
 int _islower(int c);
 int _isalpha(int c);
@@ -13,7 +10,7 @@ int _isdigit(int c);
 int _strlen(char *s);
 void _puts(char *s);
 char *_strcpy(char *dest, char *src);
-int _atoi(void);
+int _atoi(char *s);
 char *_strcat(char *dest, char *src);
 char *_strncat(char *dest, char *src, int n);
 char *_strncpy(char *dest, char *src, int n);
@@ -24,5 +21,10 @@ char *_strchr(char *s, char c);
 unsigned int _strspn(char *s, char *accept);
 char *_strpbrk(char *s, char *accept);
 char *_strstr(char *haystack, char *needle);
+int mul(int a, int b);
+int add(int a, int b);
+int sub(int a, int b);
+int div(int a, int b);
+int mod(int a, int b);
 
-#endif /* ALX */
+#endif /*MAIN_H*/
